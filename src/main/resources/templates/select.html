@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>배송 선택</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
+	integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+<style>
+.flag-img {
+  width: 80px;
+  object-fit: cover;
+}
+</style>
+</head>
+<body>
+<!-- 네비게이션 바 -->
+<div th:replace="layout/navbar :: navbar"></div>
+<!-- 배송대행 주의사항 -->
+	<p class="h3">배송 대행 주의사항</p>
+	<div>
+		<div data-bs-spy="scroll" border="1px">
+			<p>주의사항</p>
+		</div>
+		<!-- 동의 체크박스 -->
+	</div>
+
+<!-- 배송 대행 국가 선택 -->
+	<div class="mb-3">
+		<label class="form-label fw-bold mb-2">배송 대행 국가 선택</label>
+		<div class="d-flex flex-wrap align-items-center gap-4">
+			<!-- 일본 -->
+			<div class="form-check">
+				<label class="form-check-label" for="">
+					<img src="img/japan.png" alt="일본" class="flag-img">
+				</label>
+				<span>일본(JP)</span>
+				<input class="form-check-input" type="radio" name="country" id="" value="jp">
+			</div>
+			<!-- 중국 -->
+			<div class="form-check">
+				<label class="form-check-label" for="">
+					<img src="img/china.png" alt="중국" class="flag-img">
+				</label>
+				<span>중국(CN)</span>
+				<input class="form-check-input" type="radio" name="country" id="" value="cn">
+			</div>
+			<!-- 미국(CA) -->
+			<div class="form-check">
+				<label class="form-check-label" for="">
+					<img src="img/usa.png" alt="미국(CA)" class="flag-img">
+				</label>
+				<span>미국(CA)</span>
+				<input class="form-check-input" type="radio" name="country" id="" value="usca">
+			</div>
+			<!-- 미국(NJ) -->
+			<div class="form-check">
+				<label class="form-check-label" for="">
+					<img src="img/usa.png" alt="미국(NJ)" class="flag-img">
+				</label>
+				<span>미국(NJ)</span>
+				<input class="form-check-input" type="radio" name="country" id="" value="usnj">
+			</div>
+			<!-- 미국(OR) -->
+			<div class="form-check">
+				<label class="form-check-label" for="">
+					<img src="img/usa.png" alt="미국(OR)" class="flag-img">
+				</label>
+				<span>미국(OR)</span>
+				<input class="form-check-input" type="radio" name="country" id="" value="usor">
+			</div>
+			<!-- 영국 -->
+			<div class="form-check">
+				<label class="form-check-label" for="">
+					<img src="img/uk.png" alt="영국" class="flag-img">
+				</label>
+				<span>영국(UK)</span>
+				<input class="form-check-input" type="radio" name="country" id="" value="uk">
+			</div>
+			<!-- 독일 -->
+			<div class="form-check">
+				<label class="form-check-label" for="">
+					<img src="img/germany.png" alt="독일" class="flag-img">
+				</label>
+				<span>독일(GR)</span>
+				<input class="form-check-input" type="radio" name="country" id="" value="gr">
+			</div>
+			<!-- 호주 -->
+			<div class="form-check">
+				<label class="form-check-label" for="">
+					<img src="img/australia.png" alt="호주" class="flag-img">
+				</label>
+				<span>호주(AU)</span>
+				<input class="form-check-input" type="radio" name="country" id="" value="au">
+			</div>
+		</div>
+	</div>
+
+<!-- 배송 방법 선택 -->
+	<div class="mb-3">
+		<label class="form-label fw-bold mb-2">배송 방법 선택</label>
+		<div>
+			<div class="form-check form-check-inline">
+				<input class="form-check-input" type="radio" name="shippingMethod" id="shippingSea" value="sea">
+				<label class="form-check-label" for="shippingSea">해운</label>
+			</div>
+			<div class="form-check form-check-inline">
+				<input class="form-check-input" type="radio" name="shippingMethod" id="shippingAir" value="air">
+				<label class="form-check-label" for="shippingAir">항공</label>
+			</div>
+			<div class="form-check form-check-inline">
+				<input class="form-check-input" type="radio" name="shippingLCL" id="inlineRadio3" value="lcl">
+				<label class="form-check-label" for="shippingLCL">LCL</label>
+			</div>
+		</div>
+	</div>
+<!-- 신청서 작성 버튼 -->
+<form action="/write" method="get">
+	<div class="text-center">
+		<button type="submit" class="btn btn-success">신청서 작성하기</button>
+	</div>
+</form>
+<!-- 푸터 -->
+<div th:replace="layout/footer :: footer"></div>	
+<script	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+	integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
+	crossorigin="anonymous"></script>
+</body>
+</html>

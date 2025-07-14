@@ -57,6 +57,16 @@ public class ExchangeRateController {
 
         return "exchangeResult"; 
     }
+    // 배송 대행지 선택 페이지
+    @GetMapping("/select")
+    public String SelectionForm() {
+    	return "select";
+    }
+    // 신청 페이지
+    @GetMapping("/write")
+    public String Write() {
+    	return "write";
+    }
 
     
 }
