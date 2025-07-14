@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>환율 조회 국가 선택</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .container { max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ccc; border-radius: 8px; }
+        h1 { text-align: center; color: #333; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input[type="checkbox"] { margin-right: 5px; }
+        button { padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        button:hover { background-color: #0056b3; }
+        .checkbox-group { margin-bottom: 15px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>환율 조회 국가 선택</h1>
+        <form action="/exchange-result" method="post">
+            <div class="checkbox-group">
+                <label>조회할 국가 선택:</label>
+                <div th:each="currency : ${availableCurrencies}">
+                    <input type="checkbox" th:id="${currency}" name="currencies" th:value="${currency}">
+                    <label th:for="${currency}" th:text="${currency}">통화명</label>
+                </div>
+            </div>
+
+            <button type="submit">환율 조회</button>
+        </form>
+    </div>
+</body>
+</html>
