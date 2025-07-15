@@ -8,121 +8,171 @@
 	integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
 <style>
 .flag-img {
-  width: 80px;
-  object-fit: cover;
+	width: 80px;
+	object-fit: cover;
+	display: block;
+	margin: 0 auto 5px;
+}
+.scroll-box {
+	border: 1px solid #ccc;
+	max-height: 150px;
+	overflow-y: auto;
+	padding: 10px;
+	margin-bottom: 10px;
+	background-color: #f9f9f9;
+}
+.form-check.text-center {
+	width: 100px;
 }
 </style>
 </head>
 <body>
-<!-- 네비게이션 바 -->
-<div th:replace="layout/navbar :: navbar"></div>
-<!-- 배송대행 주의사항 -->
-	<p class="h3">배송 대행 주의사항</p>
-	<div>
-		<div data-bs-spy="scroll" border="1px">
-			<p>주의사항</p>
+	<!-- 네비게이션 바 -->
+	<div th:replace="layout/navbar :: navbar"></div>
+
+	<div class="container my-5">
+		<h1 class="fw-bold fs-2 text-center mb-5">배송 대행 서비스</h1>
+		<!-- 배송대행 주의사항 -->
+		<p class="fw-bold fs-5 mb-3">배송 대행 주의사항</p>
+		<div class="mx-3 my-4">
+		<div class="scroll-box">
+			<p>(목록통관) 물품가격 미화 150달러 이하(미국은 200달러 이하)는 목록통관 대상이며, 해당 금액 초과 시에는 수입신고 대상입니다.</p>
+			<p>(수입신고) 물품가격 미화 150달러 이하는 면세통관되며, 미화 150달러 초과 시에는 공제없이 총과세가격(물품가격+운임+보험료 등)에 대해 과세합니다.</p>
+			<p>미국의 경우 주마다 소비세(Sales Tax)가 달리 발생되며, 배송비의 측정 방법도 다르므로 따져보고 선택하세요.</p>
+			<p>배송신청서에 기재되는 상품금액, 수량 등 모든 정보는 세관신고서에 그대로 반영되므로 허위로 작성 불가하며, 수입이 금지상품이나 선적이 불가능한 상품의 구매로 인해 발생되는 불이익은 책임지지 않습니다. 또한, 통관상 문제 및 배송과정 중 발생된 사고에 대한 보상은 배송신청서상 정보를 기준으로 적용합니다.</p>
 		</div>
-		<!-- 동의 체크박스 -->
-	</div>
-<form action="/write" method="get">
-<!-- 배송 대행 국가 선택 -->
-	<div class="mb-3">
-		<label class="form-label fw-bold mb-2">배송 대행 국가 선택</label>
-		<div class="d-flex flex-wrap align-items-center gap-4">
-			<!-- 일본 -->
-			<div class="form-check">
-				<label class="form-check-label" for="">
-					<img src="img/japan.png" alt="일본" class="flag-img">
-				</label>
-				<span>일본(JP)</span>
-				<input class="form-check-input" type="radio" name="country" id="" value="jp">
-			</div>
-			<!-- 중국 -->
-			<div class="form-check">
-				<label class="form-check-label" for="">
-					<img src="img/china.png" alt="중국" class="flag-img">
-				</label>
-				<span>중국(CN)</span>
-				<input class="form-check-input" type="radio" name="country" id="" value="cn">
-			</div>
-			<!-- 미국(CA) -->
-			<div class="form-check">
-				<label class="form-check-label" for="">
-					<img src="img/usa.png" alt="미국(CA)" class="flag-img">
-				</label>
-				<span>미국(CA)</span>
-				<input class="form-check-input" type="radio" name="country" id="" value="usca">
-			</div>
-			<!-- 미국(NJ) -->
-			<div class="form-check">
-				<label class="form-check-label" for="">
-					<img src="img/usa.png" alt="미국(NJ)" class="flag-img">
-				</label>
-				<span>미국(NJ)</span>
-				<input class="form-check-input" type="radio" name="country" id="" value="usnj">
-			</div>
-			<!-- 미국(OR) -->
-			<div class="form-check">
-				<label class="form-check-label" for="">
-					<img src="img/usa.png" alt="미국(OR)" class="flag-img">
-				</label>
-				<span>미국(OR)</span>
-				<input class="form-check-input" type="radio" name="country" id="" value="usor">
-			</div>
-			<!-- 영국 -->
-			<div class="form-check">
-				<label class="form-check-label" for="">
-					<img src="img/uk.png" alt="영국" class="flag-img">
-				</label>
-				<span>영국(UK)</span>
-				<input class="form-check-input" type="radio" name="country" id="" value="uk">
-			</div>
-			<!-- 독일 -->
-			<div class="form-check">
-				<label class="form-check-label" for="">
-					<img src="img/germany.png" alt="독일" class="flag-img">
-				</label>
-				<span>독일(GR)</span>
-				<input class="form-check-input" type="radio" name="country" id="" value="gr">
-			</div>
-			<!-- 호주 -->
-			<div class="form-check">
-				<label class="form-check-label" for="">
-					<img src="img/australia.png" alt="호주" class="flag-img">
-				</label>
-				<span>호주(AU)</span>
-				<input class="form-check-input" type="radio" name="country" id="" value="au">
-			</div>
+		<div class="d-flex justify-content-end align-items-center mb-4">
+			<input class="form-check-input me-2" type="checkbox" id="agreeCheck">
+			<label class="form-check-label mb-0 mt-1" for="agreeCheck">
+				위의 주의사항을 읽었고 이에 대해 동의합니다.
+			</label>
 		</div>
+		</div>
+
+		<form action="/write" method="get" id="shippingForm">
+			<!-- 배송 대행 국가 선택 -->
+			<div class="mb-5">
+				<label class="form-label fw-bold fs-5 mb-3">배송 대행 국가 선택</label>
+				<div class="d-flex flex-wrap gap-4">
+					<!-- 일본 -->
+					<div class="form-check text-center">
+						<label class="d-flex flex-column align-items-center">
+							<img src="img/japan.png" alt="일본" class="flag-img">
+							<div class="mb-1">일본(JP)</div>
+							<input class="form-check-input mx-2" type="radio" name="country" value="jp">
+						</label>
+					</div>
+					<!-- 중국 -->
+					<div class="form-check text-center">
+						<label class="d-flex flex-column align-items-center">
+							<img src="img/china.png" alt="중국" class="flag-img">
+							<div class="mb-1">중국(CN)</div>
+							<input class="form-check-input mx-2" type="radio" name="country" value="cn">
+						</label>
+					</div>
+					<!-- 미국(CA) -->
+					<div class="form-check text-center">
+						<label class="d-flex flex-column align-items-center">
+							<img src="img/usa.png" alt="미국(CA)" class="flag-img">
+							<div class="mb-1">미국(CA)</div>
+							<input class="form-check-input mx-2" type="radio" name="country" value="usca">
+						</label>
+					</div>
+					<!-- 미국(NJ) -->
+					<div class="form-check text-center">
+						<label class="d-flex flex-column align-items-center">
+							<img src="img/usa.png" alt="미국(NJ)" class="flag-img">
+							<div class="mb-1">미국(NJ)</div>
+							<input class="form-check-input mx-2" type="radio" name="country" value="usnj">
+						</label>
+					</div>
+					<!-- 미국(OR) -->
+					<div class="form-check text-center">
+						<label class="d-flex flex-column align-items-center">
+							<img src="img/usa.png" alt="미국(OR)" class="flag-img">
+							<div class="mb-1">미국(OR)</div>
+							<input class="form-check-input mx-2" type="radio" name="country" value="usor">
+						</label>
+					</div>
+					<!-- 영국 -->
+					<div class="form-check text-center">
+						<label class="d-flex flex-column align-items-center">
+							<img src="img/uk.png" alt="영국" class="flag-img">
+							<div class="mb-1">영국(UK)</div>
+							<input class="form-check-input mx-2" type="radio" name="country" value="uk">
+						</label>
+					</div>
+					<!-- 독일 -->
+					<div class="form-check text-center">
+						<label class="d-flex flex-column align-items-center">
+							<img src="img/germany.png" alt="독일" class="flag-img">
+							<div class="mb-1">독일(GR)</div>
+							<input class="form-check-input mx-2" type="radio" name="country" value="gr">
+						</label>
+					</div>
+					<!-- 호주 -->
+					<div class="form-check text-center">
+						<label class="d-flex flex-column align-items-center">
+							<img src="img/australia.png" alt="호주" class="flag-img">
+							<div class="mb-1">호주(AU)</div>
+							<input class="form-check-input mx-2" type="radio" name="country" value="au">
+						</label>
+					</div>
+				</div>
+			</div>
+
+			<!-- 배송 방법 선택 -->
+			<div class="my-4">
+				<label class="form-label fw-bold fs-5 mb-3">배송 방법 선택</label>
+				<div class="mx-4 my-2">
+					<div class="form-check form-check-inline me-5">
+						<input class="form-check-input" type="radio" name="shippingMethod" id="shippingSea" value="sea">
+						<label class="form-check-label" for="shippingSea">해운</label>
+					</div>
+					<div class="form-check form-check-inline me-5">
+						<input class="form-check-input" type="radio" name="shippingMethod" id="shippingAir" value="air">
+						<label class="form-check-label" for="shippingAir">항공</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="radio" name="shippingMethod" id="shippingLCL" value="lcl">
+						<label class="form-check-label" for="shippingLCL">LCL</label>
+					</div>
+				</div>
+			</div>
+
+			<!-- 신청서 작성 버튼 -->
+			<div class="text-center">
+				<button type="submit" class="btn btn-success">신청서 작성하기</button>
+			</div>
+		</form>
 	</div>
 
-<!-- 배송 방법 선택 -->
-	<div class="mb-3">
-		<label class="form-label fw-bold mb-2">배송 방법 선택</label>
-		<div>
-			<div class="form-check form-check-inline">
-				<input class="form-check-input" type="radio" name="shippingMethod" id="shippingSea" value="sea">
-				<label class="form-check-label" for="shippingSea">해운</label>
-			</div>
-			<div class="form-check form-check-inline">
-				<input class="form-check-input" type="radio" name="shippingMethod" id="shippingAir" value="air">
-				<label class="form-check-label" for="shippingAir">항공</label>
-			</div>
-			<div class="form-check form-check-inline">
-				<input class="form-check-input" type="radio" name="shippingLCL" id="inlineRadio3" value="lcl">
-				<label class="form-check-label" for="shippingLCL">LCL</label>
-			</div>
-		</div>
-	</div>
-<!-- 신청서 작성 버튼 -->
-	<div class="text-center">
-		<button type="submit" class="btn btn-success">신청서 작성하기</button>
-	</div>
-</form>
-<!-- 푸터 -->
-<div th:replace="layout/footer :: footer"></div>	
-<script	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
-	integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
-	crossorigin="anonymous"></script>
+	<!-- 푸터 -->
+	<div th:replace="layout/footer :: footer"></div>
+
+	<!-- 체크 확인 및 alert -->
+	<script>
+		document.getElementById('shippingForm').addEventListener('submit',
+				function(e) {
+					const agreeCheck = document.getElementById('agreeCheck');
+					const countrySelected = document.querySelector('input[name="country"]:checked');
+					const shippingSelected = document.querySelector('input[name="shippingMethod"]:checked');
+
+					if (!agreeCheck.checked) {
+					  alert('주의사항에 동의해야 신청서를 작성할 수 있습니다.');
+					  e.preventDefault();
+					} else if (!countrySelected) {
+					  alert('배송 대행 국가를 선택해 주세요.');
+					  e.preventDefault();
+					} else if (!shippingSelected) {
+					  alert('배송 방법을 선택해 주세요.');
+					  e.preventDefault();
+					}
+				});
+	</script>
+
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+			integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
+			crossorigin="anonymous"></script>
 </body>
 </html>
