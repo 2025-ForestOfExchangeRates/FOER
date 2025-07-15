@@ -1,14 +1,13 @@
 package com.pro2.controller;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.pro2.dto.ExchangeRateDTO;
@@ -19,54 +18,91 @@ public class ExchangeRateController {
 
     private final ExchangeRateService exchangeRateService;
 
+    // 국가 코드와 통화 코드 매핑
+    private static final Map<String, String> COUNTRY_TO_CURRENCY_MAP;
+    // 국가 코드와 전체 국가명 매핑 (HTML 표시에 사용)
+    private static final Map<String, String> COUNTRY_TO_NAME_MAP;
+    // 국가 코드와 국기 이미지 파일명 매핑 (HTML 표시에 사용)
+    private static final Map<String, String> COUNTRY_TO_FLAG_MAP;
+
+    static {
+        COUNTRY_TO_CURRENCY_MAP = new HashMap<>();
+        COUNTRY_TO_CURRENCY_MAP.put("jp", "JPY(100)");
+        COUNTRY_TO_CURRENCY_MAP.put("cn", "CNH"); // 중국 위안화 (역외 위안)
+        COUNTRY_TO_CURRENCY_MAP.put("usca", "USD"); // 미국 캘리포니아 -> USD
+        COUNTRY_TO_CURRENCY_MAP.put("usnj", "USD"); // 미국 뉴저지 -> USD
+        COUNTRY_TO_CURRENCY_MAP.put("usor", "USD"); // 미국 오리건 -> USD
+        COUNTRY_TO_CURRENCY_MAP.put("uk", "GBP");  // 영국 파운드
+        COUNTRY_TO_CURRENCY_MAP.put("gr", "EUR");  // 독일 유로
+        COUNTRY_TO_CURRENCY_MAP.put("au", "AUD");  // 호주 달러
+
+        COUNTRY_TO_NAME_MAP = new HashMap<>();
+        COUNTRY_TO_NAME_MAP.put("jp", "일본");
+        COUNTRY_TO_NAME_MAP.put("cn", "중국");
+        COUNTRY_TO_NAME_MAP.put("usca", "미국(CA)");
+        COUNTRY_TO_NAME_MAP.put("usnj", "미국(NJ)");
+        COUNTRY_TO_NAME_MAP.put("usor", "미국(OR)");
+        COUNTRY_TO_NAME_MAP.put("uk", "영국");
+        COUNTRY_TO_NAME_MAP.put("gr", "독일");
+        COUNTRY_TO_NAME_MAP.put("au", "호주");
+
+        COUNTRY_TO_FLAG_MAP = new HashMap<>();
+        COUNTRY_TO_FLAG_MAP.put("jp", "japan.png");
+        COUNTRY_TO_FLAG_MAP.put("cn", "china.png");
+        COUNTRY_TO_FLAG_MAP.put("usca", "usa.png");
+        COUNTRY_TO_FLAG_MAP.put("usnj", "usa.png");
+        COUNTRY_TO_FLAG_MAP.put("usor", "usa.png");
+        COUNTRY_TO_FLAG_MAP.put("uk", "uk.png");
+        COUNTRY_TO_FLAG_MAP.put("gr", "germany.png");
+        COUNTRY_TO_FLAG_MAP.put("au", "australia.png");
+    }
+
     public ExchangeRateController(ExchangeRateService exchangeRateService) {
         this.exchangeRateService = exchangeRateService;
     }
 
-    // 1. 나라 선택 폼을 보여주는 페이지
-    // 이 엔드포인트로 접근하여 사용자가 국가를 선택하고 "환율 조회"를 시작합니다.
-    @GetMapping("/exchange-selection")
-    public String showSelectionForm(Model model) {
-        // 미국, 일본, 중국, 영국, 독일, 호주 (6개 국가)
-        List<String> availableCurrencies = Arrays.asList("USD", "JPY(100)", "CNH", "GBP", "EUR", "AUD");
-        model.addAttribute("availableCurrencies", availableCurrencies);
-        return "exchangeSelection"; // src/main/resources/templates/exchangeSelection.html 템플릿 렌더링
+    // 배송 대행지 선택 페이지 (select.html을 위한 엔드포인트)
+    @GetMapping("/select")
+    public String showDeliverySelectionForm() {
+        return "select";
     }
 
-    // 2. 폼 데이터를 받아 환율 정보를 조회하고 결과를 보여주는 페이지
-    // exchangeSelection.html에서 폼이 제출되면 이 엔드포인트가 호출됩니다.
-    @PostMapping("/exchange-result")
-    public String getExchangeRates(
-            @RequestParam(name = "currencies", required = false) List<String> selectedCurrencies,
+    // 신청 페이지 (write.html을 위한 엔드포인트 - 환율 정보 포함)
+    @GetMapping("/write")
+    public String showWriteForm(
+            @RequestParam(name = "country", required = false) String countryCode,
+            @RequestParam(name = "shippingMethod", required = false) String shippingMethod, // 배송 방법도 필요하다면 활용 가능
             Model model) {
 
-        // 선택된 통화가 없으면 기본 6개 통화 모두를 조회하도록 설정합니다.
-        if (selectedCurrencies == null || selectedCurrencies.isEmpty()) {
-            selectedCurrencies = Arrays.asList("USD", "JPY(100)", "CNH", "GBP", "EUR", "AUD");
-            model.addAttribute("message", "선택된 통화가 없어 기본 6개 통화가 조회되었습니다.");
+        ExchangeRateDTO selectedExchangeRate = null;
+        String currencyCode = null;
+
+        // countryCode가 넘어왔을 경우에만 환율 정보 조회
+        if (countryCode != null && !countryCode.isEmpty()) {
+            currencyCode = COUNTRY_TO_CURRENCY_MAP.get(countryCode);
+            String countryName = COUNTRY_TO_NAME_MAP.getOrDefault(countryCode, "알 수 없음");
+            String flagImg = COUNTRY_TO_FLAG_MAP.getOrDefault(countryCode, "#.png"); // 기본 이미지
+
+            if (currencyCode != null) {
+                // 단일 통화에 대한 환율 조회
+                List<ExchangeRateDTO> rates = exchangeRateService.getExchangeRatesWithChange(Collections.singletonList(currencyCode));
+                if (rates != null && !rates.isEmpty()) {
+                    selectedExchangeRate = rates.get(0);
+                }
+            }
+            model.addAttribute("selectedCountryName", countryName);
+            // cur_unit은 DTO에서 가져오는 것이 가장 정확하므로, selectedExchangeRate가 null이 아닐 때만 설정
+            model.addAttribute("selectedCurrencyCode", (selectedExchangeRate != null) ? selectedExchangeRate.getCur_unit() : "N/A");
+            model.addAttribute("selectedFlagImg", flagImg);
+        } else {
+            model.addAttribute("selectedCountryName", "국가 미선택");
+            model.addAttribute("selectedCurrencyCode", "N/A");
+            model.addAttribute("selectedFlagImg", "#.png"); // 기본 이미지
         }
 
-        // ExchangeRateService를 통해 선택된 통화들의 현재 환율과 전날 대비 변동률을 가져옵니다.
-        List<ExchangeRateDTO> exchangeRates = exchangeRateService.getExchangeRatesWithChange(selectedCurrencies);
+        model.addAttribute("selectedExchangeRate", selectedExchangeRate);
+        model.addAttribute("selectedShippingMethod", shippingMethod); // 배송 방법도 모델에 추가 (필요시)
 
-        // 결과 페이지에 표시될 조회 날짜 (오늘 날짜)를 모델에 추가합니다.
-        String today = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
-        model.addAttribute("selectedDate", today);
-
-        model.addAttribute("exchangeRates", exchangeRates);
-
-        return "exchangeResult"; 
+        return "write";
     }
-    // 배송 대행지 선택 페이지
-    @GetMapping("/select")
-    public String SelectionForm() {
-    	return "select";
-    }
-    // 신청 페이지
-    @GetMapping("/write")
-    public String Write() {
-    	return "write";
-    }
-
-    
 }

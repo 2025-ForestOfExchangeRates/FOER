@@ -1,6 +1,5 @@
 package com.pro2.service;
 
-import java.time.DayOfWeek; // 이 임포트는 현재 사용되지 않지만, 나중에 필요할 수 있어 둡니다.
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
