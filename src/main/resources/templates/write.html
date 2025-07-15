@@ -7,90 +7,112 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
 	integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
 <style>
-    label {
-        font-size: 17px;
-        font-weight: bold;
-    }
+label {
+    font-size: 17px;
+    font-weight: bold;
+}
 
-    input, select {
-        background-color: #E6E6E6;
-        height: 40px;
-    }
+input, select {
+    background-color: #E6E6E6;
+    height: 40px;
+}
 
-    .file-custom {
-        background-color: #BEBEBE;
-        width: 140px;
-        height: 40px;
-        font-color: #FFFFFF;
-        font-size: 12px;
-        font-weight: bold;
-        text-align: center;
-    }
+.file-custom {
+    background-color: #BEBEBE;
+    width: 140px;
+    height: 40px;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* 그 외(Chrome, Safari, Edge...)의 브라우저용 사용자 정의 스타일 */
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
 </style>
 </head>
 <body>
 <!-- 네비게이션 바 -->
 <div th:replace="layout/navbar :: navbar"></div>
 
-	<!-- 상품정보 -->
-    <h2>상품 정보 입력</h2>
-    <div class="rounded-4 m-3 p-4 row" style="width:900px; border:3px solid #6D6D6D;">
-        <div class="col-md-3">
-            <div id="noImageText" class="border border-3 rounded-3 m-1 d-flex align-items-center justify-content-center"
-                 style="width:140px; height:180px; display:inline;">
-                상품 이미지
-            </div>
-            <img id="previewImage" src="" alt="상품 이미지" style="width:140px; height:180px; display:none;">
-            <label for="fileInput" class="file-custom border border-0 rounded-3 m-1 p-2">
-                상품 이미지 추가
-            </label>
-            <input type="file" name="file" id="fileInput" accept="image/*" style="display:none;" />
-        </div>
-        <div class="col-md-8">
-            <div class="m-1">
-                <label>
-                    트래킹번호
-                    <input class="border border-0 rounded-3 p-2" type="text" style="width:400px;">
-                </label>
-            </div>
-            <div class="m-1">
-                <label>
-                    주 문 번 호
-                    <input class="border border-0 rounded-3 p-2" type="text" style="width:400px;">
-                </label>
-            </div>
-            <div class="m-1">
-                <label>
-                    상 품&nbsp;&nbsp;URL
-                    <input class="border border-0 rounded-3 p-2" type="url" style="width:400px;">
-                </label>
-            </div>
-            <div class="row">
+	<div class="container mt-4 mb-5">
+		<!-- 상품정보 -->
+		<h3>상품 정보 입력</h3>
+		<div id="forms" class="mt3 mb-4">
+			<div class="form d-flex justify-content-center">
+				<div class="rounded-4 m-3 p-4 row" style="width:900px; border:3px solid #6D6D6D;">
+					<div class="col-md-3">
+						<div class="noImageText">
+							<div class="border border-3 rounded-3 m-1 d-flex align-items-center justify-content-center"
+								 style="width:140px; height:180px;">
+								상품 이미지
+							</div>
+						</div>
+						<img src="" alt="상품 이미지" class="previewImage m-1" style="width:140px; height:180px; display:none;">
+						<label class="file-custom border border-0 rounded-3 m-1 p-2">
+							상품 이미지 추가
+							<input type="file" name="file" class="fileInput" accept="image/*" style="display:none;" />
+						</label>
+					</div>
+					<div class="col-md-8">
+						<div class="m-1">
+							<label>
+								트래킹번호
+								<input class="border border-0 rounded-3 p-2" type="text" style="width:400px;">
+							</label>
+						</div>
+						<div class="m-1">
+							<label>
+								주 문 번 호
+								<input class="border border-0 rounded-3 p-2" type="text" style="width:400px;">
+							</label>
+						</div>
+						<div class="m-1">
+							<label>
+								상 품&nbsp;&nbsp;URL
+								<input class="border border-0 rounded-3 p-2" type="url" style="width:400px;">
+							</label>
+						</div>
+						<div class="row">
 
-                <div class="col-md-8">
-                    <div th:replace="category-select :: category"></div>
-                </div>
-                <div class="col-md-4">
-                    <label>
-                        수&nbsp;&nbsp;&nbsp;량
-                        <input class="border border-0 rounded-3 p-2" type="number" value="1" style="width:60px;">
-                    </label>
-                </div>
-            </div>
-            <div class="m-1">
-                <label>
-                    상&nbsp;&nbsp;&nbsp;품&nbsp;&nbsp;&nbsp;명
-                    <input class="border border-0 rounded-3 p-2" type="text" style="width:400px;">
-                </label>
-            </div>
-        </div>
-        <div class="col-md-1">
-            <button type="button" class="border border-0 rounded-circle d-flex align-items-center justify-content-center"
-                    style="width:40px; height:40px; font-size:25px; color: #FFFFFF; background-color:#B7F0B1;">
-                &times;
-            </button>
-        </div>
-    </div>
+							<div class="col-md-8">
+								<div th:replace="category-select :: category"></div>
+							</div>
+							<div class="col-md-4">
+								<label>
+									수&nbsp;&nbsp;&nbsp;량
+									<input class="border border-0 rounded-3 p-2" type="number" value="1" style="width:60px;">
+								</label>
+							</div>
+						</div>
+						<div class="m-1">
+							<label>
+								상&nbsp;&nbsp;&nbsp;품&nbsp;&nbsp;&nbsp;명
+								<input class="border border-0 rounded-3 p-2" type="text" style="width:400px;">
+							</label>
+						</div>
+					</div>
+					<div class="col-md-1">
+						<button type="button" class="close-btn border border-0 rounded-circle d-flex align-items-center justify-content-center"
+								style="width:40px; height:40px; font-size:25px; color: #FFFFFF; background-color:#B7F0B1;">
+							&times;
+						</button>
+					</div>
+				</div>
+			</div>
+			<div class="d-flex justify-content-end">
+				<button type="button" id="addProductBtn" class="btn btn-success">상품 추가</button>
+			</div>
+		</div>
+
+		<hr/>
+
 
 	<!-- 가격 -->
 	<div class="container mt-4">
@@ -98,21 +120,21 @@
 			<div class="col-md-6">
 				<form>
 					<div class="row mb-3 align-items-center">
-						<label for="price" class="col-sm-2 col-form-label">상품가</label>
+						<label for="price" class="col-sm-3 col-form-label">상품가</label>
 						<div class="col-sm-9">
-							<input type="text" class="form-control" id="price">
+							<input type="number" class="form-control" id="price" oninput="updateTotal()" min="0" step="any">
 						</div>
 					</div>
 					<div class="row mb-3 align-items-center">
-						<label for="tax" class="col-sm-2 col-form-label">현지 세금</label>
+						<label for="tax" class="col-sm-3 col-form-label">현지 세금</label>
 						<div class="col-sm-9">
-							<input type="text" class="form-control" id="tax">
+							<input type="number" class="form-control" id="tax" oninput="updateTotal()" min="0" step="any">
 						</div>
 					</div>
 					<div class="row mb-3 align-items-center">
-						<label for="shipping" class="col-sm-2 col-form-label">현지 운송료</label>
+						<label for="shipping" class="col-sm-3 col-form-label">현지 운송료</label>
 						<div class="col-sm-9">
-							<input type="text" class="form-control" id="shipping">
+							<input type="number" class="form-control" id="shipping" oninput="updateTotal()"	min="0" step="any">
 						</div>
 					</div>
 				</form>
@@ -121,7 +143,7 @@
 				<div class="w-100 text-center">
 					<label>총 상품 구매가</label>
 				</div>
-				<div>$
+				<div id="totalCost">
 				</div>
 			</div>
 		</div>
@@ -169,27 +191,111 @@
 	</div>
 <!-- 푸터 -->
 <div th:replace="layout/footer :: footer"></div>
-<script>
-    const imageInput = document.getElementById('fileInput');
-    const previewImage = document.getElementById('previewImage');
-    const noImageText = document.getElementById('noImageText');
 
-    imageInput.addEventListener('change', function() {
-        const file = this.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                previewImage.src = e.target.result;
-                previewImage.style.display = 'block';
-                noImageText.style.display = 'none';
-            }
-            reader.readAsDataURL(file);
-          } else {
-            previewImage.src = '';
-            previewImage.style.display = 'none';
-            noImageText.style.display = 'inline';
-          }
+<script>
+const forms = document.getElementById('forms');
+
+// 복제한 폼 내부 입력값과 이미지 초기화 함수
+function resetFormInputs(formElement) {
+    const inputs = formElement.querySelectorAll('input');
+    inputs.forEach(input => {
+		if (input.type === 'file') {
+		    input.value = '';  // 파일 input 초기화
+		} else if (input.type === 'number') {
+		    input.value = input.defaultValue || '';  // 기본값 있으면 넣기
+		} else {
+		    input.value = '';  // 그 외는 빈값
+		}
     });
+
+  	const previewImage = formElement.querySelector('.previewImage');
+  	const noImageText = formElement.querySelector('.noImageText');
+
+  	if (previewImage || noImageText) {
+		previewImage.src = '';
+		previewImage.style.display = 'none';
+		noImageText.style.display = 'block';  // 원래 있던 이미지 없음 텍스트 보여주기
+  	}
+}
+
+// 상품 추가 버튼 클릭 시 폼 복제 후 추가
+document.getElementById('addProductBtn').addEventListener('click', () => {
+    const originalForm = document.querySelector('.form');
+    if (!originalForm) return;
+
+    const newForm = originalForm.cloneNode(true);
+    newForm.removeAttribute('id');
+    resetFormInputs(newForm);
+
+    attachCloseEvent(newForm);
+    attachImageChangeEvent(newForm);
+
+    forms.insertBefore(newForm, document.getElementById('addProductBtn').parentElement);
+});
+
+// close-btn 클릭 시 해당 폼 삭제 함수
+function attachCloseEvent(formElement) {
+    const closeBtn = formElement.querySelector('.close-btn');
+	if (closeBtn) {
+		closeBtn.addEventListener('click', () => {
+			const formsCount = document.querySelectorAll('#forms > .form').length; // 폼 개수 체크
+			if (formsCount > 1) {
+				console.log(formsCount);
+				formElement.remove();
+			} else {
+			console.log(formsCount);
+				alert('폼은 최소 1개 이상 있어야 합니다.');
+		  	}
+		});
+	}
+}
+
+// 이미지 input change 이벤트 설정 (폼 하나당 각각 붙여주기)
+function attachImageChangeEvent(formElement) {
+	const imageInput = formElement.querySelector('input[type="file"]');
+	const previewImage = formElement.querySelector('.previewImage');  // id -> class
+	const noImageText = formElement.querySelector('.noImageText');    // id -> class
+
+	imageInput.addEventListener('change', function() {
+		const file = this.files[0];
+		if (file) {
+			const reader = new FileReader();
+			reader.onload = function(e) {
+				previewImage.src = e.target.result;
+				previewImage.style.display = 'block';
+				noImageText.style.display = 'none';
+			}
+			reader.readAsDataURL(file);
+		} else {
+			previewImage.src = '';
+			previewImage.style.display = 'none';
+			noImageText.style.display = 'block';
+		}
+	});
+}
+
+// 처음 로드된 폼에도 이벤트 붙이기
+const initialForm = document.querySelector('.form');
+if (initialForm) {
+    attachCloseEvent(initialForm);
+    attachImageChangeEvent(initialForm);
+}
+</script>
+
+<script>
+// 총 상품 구매가
+  function updateTotal() {
+    const price = parseFloat(document.getElementById("price").value) || 0;
+    const tax = parseFloat(document.getElementById("tax").value) || 0;
+    const shipping = parseFloat(document.getElementById("shipping").value) || 0;
+    const total = price + tax + shipping;
+
+    document.getElementById("totalCost").textContent = `$${total.toFixed(2)}`;
+  }
+ // url 국가값
+	const urlParams = new URLSearchParams(window.location.search);
+	const country = urlParams.get('country');
+	const shipping = urlParams.get('shipping')
 </script>
 <script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
