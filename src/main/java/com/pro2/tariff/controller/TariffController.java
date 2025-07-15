@@ -25,8 +25,16 @@ public class TariffController {
     }
 
     @GetMapping("/tariff-chart")
-    public String showTariffChart(@RequestParam("country") String country, Model model) {
-        List<TariffCut> cuts = service.getLastThreeWeeksCuts(country);
+    public String showTariffChart(@RequestParam("country") String countryCode, Model model) {
+        // 코드 → 한글 국가명 매핑
+        String countryName = convertCountryCodeToKorean(countryCode);
+
+        if (countryName == null) {
+            // 잘못된 국가코드 처리 (예: 에러 페이지, 또는 기본 국가 페이지로 redirect)
+            return "error/invalidCountry"; // 예: error/invalidCountry.jsp
+        }
+
+        List<TariffCut> cuts = service.getLastThreeWeeksCuts(countryName);
 
         List<String> dates = cuts.stream()
                                  .map(c -> c.getDate().toString())
@@ -36,17 +44,29 @@ public class TariffController {
                                   .map(TariffCut::getTariffCut)
                                   .collect(Collectors.toList());
 
-        // 최신 관세 값 구하기 (가장 최근 날짜 데이터)
         Double latestTariff = null;
         if (!cuts.isEmpty()) {
             latestTariff = cuts.get(cuts.size() - 1).getTariffCut();
         }
 
-        model.addAttribute("country", country);
+        model.addAttribute("country", countryName);
         model.addAttribute("dates", dates);
         model.addAttribute("values", values);
         model.addAttribute("latestTariff", latestTariff);
 
         return "tariffChart"; // tariffChart.jsp
+    }
+
+    // 코드 → 한글 국가명 변환 함수 (default 제거)
+    private String convertCountryCodeToKorean(String code) {
+        return switch (code) {
+            case "jp"   -> "일본";
+            case "cn"   -> "중국";
+            case "usca", "usnj", "usor" -> "미국";
+            case "uk"   -> "영국";
+            case "gr"   -> "독일";
+            case "au"   -> "호주";
+            default     -> null; // default 제거, 매핑 없으면 null 반환
+        };
     }
 }
