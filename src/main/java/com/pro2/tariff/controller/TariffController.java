@@ -1,6 +1,5 @@
 package com.pro2.tariff.controller;
 
-
 import com.pro2.tariff.entity.TariffCut;
 import com.pro2.tariff.service.TariffCutService;
 import org.springframework.stereotype.Controller;
@@ -37,9 +36,16 @@ public class TariffController {
                                   .map(TariffCut::getTariffCut)
                                   .collect(Collectors.toList());
 
+        // 최신 관세 값 구하기 (가장 최근 날짜 데이터)
+        Double latestTariff = null;
+        if (!cuts.isEmpty()) {
+            latestTariff = cuts.get(cuts.size() - 1).getTariffCut();
+        }
+
         model.addAttribute("country", country);
         model.addAttribute("dates", dates);
         model.addAttribute("values", values);
+        model.addAttribute("latestTariff", latestTariff);
 
         return "tariffChart"; // tariffChart.jsp
     }
