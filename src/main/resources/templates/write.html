@@ -178,22 +178,51 @@ input::-webkit-outer-spin-button {
                         <span th:if="${selectedExchangeRate.changeDirection == 'N/A'}">(N/A)</span>
                     </span>
 				</div>
-                <div class="mt-1" th:if="${selectedExchangeRate == null}">
-                    <span>환율: 정보를 불러올 수 없습니다.</span>
-                </div>
-				<div>
-					<h6>금주의 자가사용물품 면세기준: ${latestTariff}</h6>
-				</div>
-			</div>
-			<!-- 그래프 -->
-			<div class="col-md-6">
-				<div class="border rounded p-3">
-					<canvas id="lineChart"></canvas>
-					<p>자가사용물품 면세기준</p>
-				</div>
-			</div>
-		</div>
-	</div>
+<div class="mt-1" th:if="${selectedExchangeRate == null}">
+  <span>환율: 정보를 불러올 수 없습니다.</span>
+</div>
+<div>
+  <h6>금주의 자가사용물품 면세기준: <span th:text="${latestTariff}"></span></h6>
+</div>
+
+<!-- 그래프 -->
+<div class="col-md-6">
+  <div class="border rounded p-3">
+    <canvas id="lineChart"></canvas>
+    <p>자가사용물품 면세기준</p>
+  </div>
+</div>
+
+<script th:inline="javascript">
+  /*<![CDATA[*/
+  const chartDates = /*[[${dates}]]*/ [];
+  const chartValues = /*[[${values}]]*/ [];
+  /*]]>*/
+</script>
+
+<script>
+  const ctx = document.getElementById('lineChart').getContext('2d');
+  new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: chartDates,
+      datasets: [{
+        label: '자가사용물품 면세기준',
+        data: chartValues,
+        borderColor: 'rgba(75, 192, 192, 1)',
+        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+        fill: true,
+        tension: 0.3
+      }]
+    },
+    options: {
+      scales: {
+        y: { beginAtZero: false }
+      }
+    }
+  });
+</script>
+
 <!-- 총 구매가 = (상품가 + 현지 배송비 + 현지 세금)			// 해외 쇼핑몰 결제
 			+ (국제 배송비 + 국내 배송비 + 부가 옵션·수수료)	// 배대지 결제
 			+ (관세 + 부가가치세 + 통관수수료 등)			// 면세 한도 초과 시 -->
