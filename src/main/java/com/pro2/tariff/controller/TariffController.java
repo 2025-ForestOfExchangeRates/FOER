@@ -1,7 +1,7 @@
 package com.pro2.tariff.controller;
 
-import com.pro2.tariff.entity.TariffCut;
-import com.pro2.tariff.service.TariffCutService;
+import com.pro2.tariff.entity.Tariff;
+import com.pro2.tariff.service.TariffService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,40 +13,30 @@ import java.util.stream.Collectors;
 @Controller
 public class TariffController {
 
-    private final TariffCutService service;
+    private final TariffService service;
 
-    public TariffController(TariffCutService service) {
+    public TariffController(TariffService service) {
         this.service = service;
-    }
-
-    @GetMapping("/select-country")
-    public String selectCountryPage() {
-        return "selectCountry"; // selectCountry.jsp
     }
 
     @GetMapping("/tariff-chart")
     public String showTariffChart(@RequestParam("country") String country, Model model) {
-        List<TariffCut> cuts = service.getLastThreeWeeksCuts(country);
+        List<Tariff> cuts = service.getLastThreeWeeksCuts(country);
+        Tariff latest = service.getLatestCut(country);
 
         List<String> dates = cuts.stream()
-                                 .map(c -> c.getDate().toString())
-                                 .collect(Collectors.toList());
+                .map(c -> c.getDate().toString())
+                .collect(Collectors.toList());
 
         List<Double> values = cuts.stream()
-                                  .map(TariffCut::getTariffCut)
-                                  .collect(Collectors.toList());
-
-        // 최신 관세 값 구하기 (가장 최근 날짜 데이터)
-        Double latestTariff = null;
-        if (!cuts.isEmpty()) {
-            latestTariff = cuts.get(cuts.size() - 1).getTariffCut();
-        }
+                .map(Tariff::getTariffCut)
+                .collect(Collectors.toList());
 
         model.addAttribute("country", country);
         model.addAttribute("dates", dates);
         model.addAttribute("values", values);
-        model.addAttribute("latestTariff", latestTariff);
+        model.addAttribute("latestTariff", latest != null ? latest.getTariffCut() : "정보 없음");
 
-        return "tariffChart"; // tariffChart.jsp
+        return "tariffChart";
     }
 }
