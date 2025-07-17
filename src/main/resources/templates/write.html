@@ -7,6 +7,10 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
 	integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
 <style>
+body {
+    background-color: #E3F0E7;
+}
+
 label {
     font-size: 17px;
     font-weight: bold;
@@ -54,7 +58,7 @@ input::-webkit-outer-spin-button {
 		<h3>상품 정보 입력</h3>
 		<div id="forms" class="mt3 mb-4">
 			<div class="form d-flex justify-content-center">
-				<div class="rounded-4 m-3 p-4 row" style="width:900px; border:3px solid #6D6D6D;">
+				<div class="rounded-4 m-3 p-4 row" style="width:900px; border:3px solid #6D6D6D; background-color: white;">
 					<div class="col-md-3">
 						<div class="noImageText">
 							<div class="border border-3 rounded-3 m-1 d-flex align-items-center justify-content-center"
@@ -94,14 +98,14 @@ input::-webkit-outer-spin-button {
 							<div class="col-md-4">
 								<label>
 									수&nbsp;&nbsp;&nbsp;량
-									<input class="product-qty border border-0 rounded-3 p-2" type="number" min="1" value="1" style="width:60px;">
+									<input class="product-qty border border-0 rounded-3 p-2" type="number" oninput="productPrice(this)" min="1" value="1" style="width:60px;">
 								</label>
 							</div>
 						</div>
 						<div class="m-1">
 							<label>
 								단&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;가
-								<input class="product-price border border-0 rounded-3 p-2" id="product-price" type="number" min="0" value="0" style="width:400px;">
+								<input class="product-price border border-0 rounded-3 p-2" id="product-price" type="number" oninput="productPrice(this)" min="0" value="0" style="width:400px;">
 							</label>
 						</div>
 						<div class="m-1">
@@ -327,6 +331,20 @@ input::-webkit-outer-spin-button {
     if (initialForm) {
         attachCloseEvent(initialForm);
         attachImageChangeEvent(initialForm);
+    }
+    
+    // 단가 * 수량 = 상품가
+    function productPrice(inputElement) {
+        const formElement = inputElement.closest('.form');
+        const qtyInput = formElement.querySelector('.product-qty');
+        const priceInput = formElement.querySelector('.product-price');
+        const totalInput = document.getElementById('price');
+
+        const quantity = parseInt(qtyInput.value) || 0;
+        const unitPrice = parseInt(priceInput.value) || 0;
+        const total = quantity * unitPrice;
+
+        totalInput.value = total;
     }
 </script>
 
