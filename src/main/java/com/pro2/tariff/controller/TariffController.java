@@ -19,24 +19,25 @@ public class TariffController {
         this.service = service;
     }
 
-    @GetMapping("/tariff-chart")
-    public String showTariffChart(@RequestParam("country") String country, Model model) {
-        List<Tariff> cuts = service.getLastThreeWeeksCuts(country);
-        Tariff latest = service.getLatestCut(country);
+@GetMapping("/write")
+public String showWritePage(@RequestParam("country") String country, Model model) {
+    List<TariffCut> cuts = service.getLastThreeWeeksCuts(country);
+    TariffCut latest = service.getLatestCut(country);
 
-        List<String> dates = cuts.stream()
-                .map(c -> c.getDate().toString())
-                .collect(Collectors.toList());
+    List<String> dates = cuts.stream()
+                             .map(c -> c.getDate().toString())
+                             .collect(Collectors.toList());
 
-        List<Double> values = cuts.stream()
-                .map(Tariff::getTariffCut)
-                .collect(Collectors.toList());
+    List<Double> values = cuts.stream()
+                             .map(TariffCut::getTariffCut)
+                             .collect(Collectors.toList());
 
-        model.addAttribute("country", country);
-        model.addAttribute("dates", dates);
-        model.addAttribute("values", values);
-        model.addAttribute("latestTariff", latest != null ? latest.getTariffCut() : "정보 없음");
+    model.addAttribute("country", country);
+    model.addAttribute("dates", dates);
+    model.addAttribute("values", values);
+    model.addAttribute("latestTariff", latest != null ? latest.getTariffCut() : "정보 없음");
 
-        return "tariffChart";
-    }
+    return "write";  // write.html 뷰 반환
+}
+
 }
