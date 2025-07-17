@@ -8,6 +8,7 @@ import java.util.Map;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.pro2.dto.ExchangeRateDTO;
@@ -105,4 +106,21 @@ public class ExchangeRateController {
 
         return "write";
     }
+ // controller
+    // 신청 버튼 클릭
+    @PostMapping("/process")
+    public String processForm(
+            @RequestParam("action") String action,
+            Model model) {
+
+        if ("submit".equals(action)) {
+            model.addAttribute("message", "신청이 완료되었습니다.");
+        } else if ("save".equals(action)) {
+            model.addAttribute("message", "임시 저장이 완료되었습니다.");
+        } else {
+            model.addAttribute("message", "알 수 없는 요청입니다.");
+        }
+        return "result";
+    }
+    
 }
