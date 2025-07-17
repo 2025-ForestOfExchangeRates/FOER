@@ -6,6 +6,7 @@
 <title>배송 선택</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
 	integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+<link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
 <style>
 .flag-img {
 	width: 80px;
@@ -26,6 +27,7 @@
 }
 body {
     background-color: #E3F0E7;
+    font-family: 'Spoqa Han Sans Neo', 'sans-serif';
 }
 </style>
 </head>
@@ -36,7 +38,7 @@ body {
 	<div class="container my-5">
 		<h1 class="fw-bold fs-2 text-center mb-5">배송 대행 서비스</h1>
 		<!-- 배송대행 주의사항 -->
-		<p class="fw-bold fs-5 mb-3">배송 대행 주의사항</p>
+		<p class="fs-5 mb-3">배송 대행 주의사항</p>
 		<div class="mx-3 my-4">
 		<div class="scroll-box">
 			<p>(목록통관) 물품가격 미화 150달러 이하(미국은 200달러 이하)는 목록통관 대상이며, 해당 금액 초과 시에는 수입신고 대상입니다.</p>
@@ -55,7 +57,7 @@ body {
 		<form action="/write" method="get" id="shippingForm">
 			<!-- 배송 대행 국가 선택 -->
 			<div class="mb-5">
-				<label class="form-label fw-bold fs-5 mb-3">배송 대행 국가 선택</label>
+				<label class="form-label fs-5 mb-3">배송 대행 국가 선택</label>
 				<div class="d-flex flex-wrap gap-4">
 					<!-- 일본 -->
 					<div class="form-check text-center">
@@ -126,7 +128,7 @@ body {
 
 			<!-- 배송 방법 선택 -->
 			<div class="my-4">
-				<label class="form-label fw-bold fs-5 mb-3">배송 방법 선택</label>
+				<label class="form-label fs-5 mb-3">배송 방법 선택</label>
 				<div class="mx-4 my-2">
 					<div class="form-check form-check-inline me-5">
 						<input class="form-check-input" type="radio" name="shippingMethod" id="shippingSea" value="sea">
