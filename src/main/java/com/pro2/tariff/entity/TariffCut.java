@@ -19,5 +19,6 @@ public class TariffCut {
 
     private String country;
 
+    @Column(name = "tariff_cut") // 명시적으로 매핑
     private Double tariffCut;
 }
